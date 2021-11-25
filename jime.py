@@ -5,7 +5,7 @@ import datetime
 import time
 from os import system
 
-with open("/Users/jsober/projects/jime/jime.cfg", "r") as f:
+with open("./jime.cfg", "r") as f:
     lines = f.readlines()
 for line in lines:
     exec(line.strip())
