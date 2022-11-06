@@ -1,5 +1,5 @@
 # Jime
-###Options
+### Options
 * Round To options
   * minutes
   * minutes list
@@ -8,16 +8,14 @@
   * minutes
   * percentage of minutes in current interval
 
-###Configuration
-The Round To, Loop Seconds, and Round Up options are implemented in `jime.cfg`.
+### Configuration
+The Round To, Loop Seconds, and Round Up options are configured in `jime.cfg`.
 
-You may use only one Round To option (`round_to_min` or `round_to_min_list`).
+You may use only one Round To option (`round_to_min` or `round_to_min_list`). The values in round_to_min_list should be sorted from low to high and the highest value is followed by the lowest plus 60 (representing the lowest value of the next hour). 
 
 You may use only one Round Up option (`round_up_min` or `round_up_per`).
 
-
-
-####Examples:
+#### Examples:
 ```
 # Default configuration
 round_to_min=5
