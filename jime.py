@@ -3,6 +3,7 @@
 import sys
 import datetime
 import time
+import math
 from os import system
 
 # Read configuration in jime.cfg
@@ -113,6 +114,19 @@ _ = system('clear')
 print("The jime is "+jime())
 
 if loop_sec > 0:
+    now_sec = datetime.datetime.now().second
+#    print("DEBUG: multiple * math.ceil(number / multiple) + multiple is " + str(loop_sec * math.ceil(now_sec / loop_sec)))
+#    print("DEBUG: now_sec is " + str(now_sec) + ". Sleeping for " + str(loop_sec * math.ceil(now_sec / loop_sec) + 0.1 - now_sec) + " seconds.")
+    time.sleep(loop_sec * math.ceil(now_sec / loop_sec) + 0.1 - now_sec)
+    now_min = datetime.datetime.now().minute
+    if using_list:
+        round_to_min = walk_list(now_min)
+    if using_per:
+        round_up_min = round((round_up_per/100)*(round_to_min))
+#        print("DEBUG: round_up_min is " + str(round_up_min))
+
+    _ = system('clear')
+    print("The jime is "+jime())
     while True:
         time.sleep(loop_sec)
         now_min = datetime.datetime.now().minute
