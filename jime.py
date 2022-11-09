@@ -22,13 +22,13 @@ for line in lines:
 try:
     round_to_min
     using_list = False
-    logging.debug("using_list is " + str(using_list))
+    logging.info("using_list is " + str(using_list))
 except NameError:
     round_to_min = -1
     try:
         round_to_min_list
         using_list = True
-        logging.debug("using_list is " + str(using_list))
+        logging.info("using_list is " + str(using_list))
     except NameError:
         print("Either round_to_min or round_to_min_list is required. Please correct the configuration in `jime.cfg`.")
         sys.exit(1);
@@ -42,13 +42,13 @@ except NameError:
 try:
     round_up_min
     using_per = False
-    logging.debug("using_per is " + str(using_per))
+    logging.info("using_per is " + str(using_per))
 except NameError:
     round_up_min = -1
     try:
         round_up_per
         using_per = True
-        logging.debug("using_per is " + str(using_per))
+        logging.info("using_per is " + str(using_per))
     except NameError:
         print("Either round_up_min or round_up_per is required. Please correct the configuration in `jime.cfg`.")
         sys.exit(1);
@@ -63,7 +63,7 @@ def walk_list(now_min):
                 high_rtm = round_to_min_list[0]+60
                 logging.debug("high_rtm is " + str(high_rtm))
                 round_to_min = high_rtm - low_rtm
-                logging.debug("round_to_min is " + str(round_to_min))
+                logging.info("round_to_min is " + str(round_to_min))
                 break
         else:
             if round_to_min_list[i] <= now_min and now_min <= round_to_min_list[i+1]:
@@ -73,7 +73,7 @@ def walk_list(now_min):
                 high_rtm = round_to_min_list[i+1]
                 logging.debug("high_rtm is " + str(high_rtm))
                 round_to_min = high_rtm - low_rtm
-                logging.debug("round_to_min is " + str(round_to_min))
+                logging.info("round_to_min is " + str(round_to_min))
                 break
     return round_to_min
 
@@ -82,34 +82,29 @@ if using_list:
     round_to_min = walk_list(now_min)
 if using_per:
     round_up_min = round((round_up_per/100)*(round_to_min))
-    logging.debug("round_up_min is " + str(round_up_min))
+    logging.info("round_up_min is " + str(round_up_min))
 
 def jime():
     dt = datetime.datetime.now()
     round_to = 60*round_to_min
     round_up = 60*round_up_min
-    logging.debug("using_list is " + str(using_list))
-    logging.debug("using_per is " + str(using_per))
-    logging.debug("round_to_min is " + str(round_to_min))
-    logging.debug("loop_sec is " + str(loop_sec))
+    logging.info("using_list is " + str(using_list))
+    logging.info("using_per is " + str(using_per))
+    logging.info("round_to_min is " + str(round_to_min))
+    logging.info("loop_sec is " + str(loop_sec))
     if using_per:
-        logging.debug("round_up_per is " + str(round_up_per))
-    logging.debug("round_up_min is " + str(round_up_min))
+        logging.info("round_up_per is " + str(round_up_per))
+    logging.info("round_up_min is " + str(round_up_min))
     logging.debug("round_to is " + str(round_to))
     logging.debug("round_up is " + str(round_up))
-    logging.debug("dt is " + str(dt))
+    logging.info("dt is " + str(dt))
     seconds = (dt - dt.min).seconds
     logging.debug("seconds is " + str(seconds))
     rounding = (seconds+round_up) // round_to * round_to
     logging.debug("rounding = (seconds+round_up) // round_to * round_to")
-    logging.debug("rounding = (" + str(seconds) + "+" + str(round_up) + ") // " + str(round_to) + " * " + str(round_to))
-    logging.debug("rounding = " + str(seconds+round_up) + " // " + str(round_to*round_to))
     logging.debug("rounding is " + str(rounding))
     t = dt + datetime.timedelta(0,rounding-seconds,-dt.microsecond)
     logging.debug("t = dt + datetime.timedelta(0,rounding-seconds,-dt.microsecond)")
-    logging.debug("t = " + str(dt) + " + datetime.timedelta(0," + str(rounding) + "-" + str(seconds) + "," + str(-dt.microsecond) + ")")
-    logging.debug("t = " + str(dt) + " + datetime.timedelta(0," + str(rounding-seconds) + "," + str(-dt.microsecond) + ")")
-    logging.debug("t = " + str(dt) + " + " + str(datetime.timedelta(0,rounding-seconds,-dt.microsecond)))
     logging.debug("t is " + str(t))
     return str(t.hour).zfill(2)+":"+str(t.minute).zfill(2)
 
@@ -126,7 +121,7 @@ if loop_sec > 0:
         round_to_min = walk_list(now_min)
     if using_per:
         round_up_min = round((round_up_per/100)*(round_to_min))
-        logging.debug("round_up_min is " + str(round_up_min))
+        logging.info("round_up_min is " + str(round_up_min))
 
     _ = system('clear')
     print("The jime is "+jime())
@@ -140,7 +135,7 @@ if loop_sec > 0:
             round_to_min = walk_list(now_min)
         if using_per:
             round_up_min = round((round_up_per/100)*(round_to_min))
-            logging.debug("round_up_min is " + str(round_up_min))
+            logging.info("round_up_min is " + str(round_up_min))
 
         _ = system('clear')
         print("The jime is "+jime())
