@@ -4,10 +4,7 @@ import sys
 import logging
 import datetime
 import time
-import math
 from os import system
-
-logging.basicConfig(stream=sys.stderr, level=logging.CRITICAL)
 
 # Read configuration in jime.cfg
 with open("./jime.cfg", "r") as f:
@@ -19,6 +16,14 @@ for line in lines:
         exec(line.strip())
 
 # Validate configuration variables and initialize flags based on which variables are defined
+try:
+    log_level
+except NameError:
+    log_level = "CRITICAL"
+    print("log_level has been set to the default value of CRITICAL. To change log_level, please update the configuration in `jime.cfg`.")
+cmd = "logging.basicConfig(stream=sys.stderr, level=logging." + log_level + ")"
+exec(cmd)
+
 try:
     round_to_min
     using_list = False
@@ -113,9 +118,9 @@ print("The jime is "+jime())
 
 if loop_sec > 0:
     now_sec = datetime.datetime.now().second
-    logging.debug("multiple * math.ceil(number / multiple) + multiple is " + str(loop_sec * math.ceil(now_sec / loop_sec) + loop_sec))
-    logging.debug("now_sec is " + str(now_sec) + ". Sleeping for " + str(loop_sec * math.ceil(now_sec / loop_sec) + loop_sec + 0.1 - now_sec) + " seconds.")
-    time.sleep(loop_sec * math.ceil(now_sec / loop_sec) + loop_sec + 0.1 - now_sec)
+    logging.debug("multiple * round(number / multiple) + multiple is " + str(loop_sec * round(now_sec / loop_sec) + loop_sec))
+    logging.debug("now_sec is " + str(now_sec) + ". Sleeping for " + str(loop_sec * round(now_sec / loop_sec) + loop_sec + 0.1 - now_sec) + " seconds.")
+    time.sleep(loop_sec * round(now_sec / loop_sec) + loop_sec + 0.1 - now_sec)
     now_min = datetime.datetime.now().minute
     if using_list:
         round_to_min = walk_list(now_min)
@@ -127,9 +132,9 @@ if loop_sec > 0:
     print("The jime is "+jime())
     while True:
         now_sec = datetime.datetime.now().second
-        logging.debug("multiple * math.ceil(number / multiple) + multiple is " + str(loop_sec * math.ceil(now_sec / loop_sec) + loop_sec))
-        logging.debug("now_sec is " + str(now_sec) + ". Sleeping for " + str(loop_sec * math.ceil(now_sec / loop_sec) + loop_sec + 0.1 - now_sec) + " seconds.")
-        time.sleep(loop_sec * math.ceil(now_sec / loop_sec) + loop_sec + 0.1 - now_sec)
+        logging.debug("multiple * round(number / multiple) + multiple is " + str(loop_sec * round(now_sec / loop_sec) + loop_sec))
+        logging.debug("now_sec is " + str(now_sec) + ". Sleeping for " + str(loop_sec * round(now_sec / loop_sec) + loop_sec + 0.1 - now_sec) + " seconds.")
+        time.sleep(loop_sec * round(now_sec / loop_sec) + loop_sec + 0.1 - now_sec)
         now_min = datetime.datetime.now().minute
         if using_list:
             round_to_min = walk_list(now_min)
