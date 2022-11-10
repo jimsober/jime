@@ -1,5 +1,7 @@
 # Jime
 ### Options
+* Log Level
+  * choose from DEBUG,INFO,WARNING,ERROR,CRITICAL
 * Round To options
   * minutes
   * minutes list
