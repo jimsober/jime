@@ -17,10 +17,15 @@ for line in lines:
 
 # Validate configuration variables and initialize flags based on which variables are defined
 try:
+    clear_screen
+except NameError:
+    clear_screen = True
+    logging.warning("clear_screen has been set to the default value of True. To change clear_screen, please update the configuration in `jime.cfg`.")
+try:
     log_level
 except NameError:
     log_level = "CRITICAL"
-    print("log_level has been set to the default value of CRITICAL. To change log_level, please update the configuration in `jime.cfg`.")
+    logging.warning("log_level has been set to the default value of CRITICAL. To change log_level, please update the configuration in `jime.cfg`.")
 cmd = "logging.basicConfig(stream=sys.stderr, level=logging." + log_level + ")"
 exec(cmd)
 
@@ -35,14 +40,14 @@ except NameError:
         using_list = True
         logging.info("using_list is " + str(using_list))
     except NameError:
-        print("Either round_to_min or round_to_min_list is required. Please correct the configuration in `jime.cfg`.")
+        logging.critical("Either round_to_min or round_to_min_list is required. Please correct the configuration in `jime.cfg`.")
         sys.exit(1);
 
 try:
     loop_sec
 except NameError:
     loop_sec = 0
-    print("loop_sec has been set to the default value of 0 (no loop). To enable loop, please update the configuration in `jime.cfg`.")
+    logging.warning("loop_sec has been set to the default value of 0 (no loop). To enable loop, please update the configuration in `jime.cfg`.")
 
 try:
     round_up_min
@@ -54,8 +59,9 @@ except NameError:
         round_up_per
         using_per = True
         logging.info("using_per is " + str(using_per))
+        logging.info("round_up_per is " + str(round_up_per))
     except NameError:
-        print("Either round_up_min or round_up_per is required. Please correct the configuration in `jime.cfg`.")
+        logging.critical("Either round_up_min or round_up_per is required. Please correct the configuration in `jime.cfg`.")
         sys.exit(1);
 
 def walk_list(now_min):
@@ -68,7 +74,6 @@ def walk_list(now_min):
                 high_rtm = round_to_min_list[0]+60
                 logging.debug("high_rtm is " + str(high_rtm))
                 round_to_min = high_rtm - low_rtm
-                logging.info("round_to_min is " + str(round_to_min))
                 break
         else:
             if round_to_min_list[i] <= now_min and now_min <= round_to_min_list[i+1]:
@@ -78,7 +83,6 @@ def walk_list(now_min):
                 high_rtm = round_to_min_list[i+1]
                 logging.debug("high_rtm is " + str(high_rtm))
                 round_to_min = high_rtm - low_rtm
-                logging.info("round_to_min is " + str(round_to_min))
                 break
     return round_to_min
 
@@ -113,7 +117,8 @@ def jime():
     logging.debug("t is " + str(t))
     return str(t.hour).zfill(2)+":"+str(t.minute).zfill(2)
 
-_ = system('clear')
+if clear_screen:
+    _ = system('clear')
 print("The jime is "+jime())
 
 if loop_sec > 0:
@@ -128,7 +133,8 @@ if loop_sec > 0:
         round_up_min = round((round_up_per/100)*(round_to_min))
         logging.info("round_up_min is " + str(round_up_min))
 
-    _ = system('clear')
+    if clear_screen:
+        _ = system('clear')
     print("The jime is "+jime())
     while True:
         now_sec = datetime.datetime.now().second
@@ -142,5 +148,6 @@ if loop_sec > 0:
             round_up_min = round((round_up_per/100)*(round_to_min))
             logging.info("round_up_min is " + str(round_up_min))
 
-        _ = system('clear')
+        if clear_screen:
+            _ = system('clear')
         print("The jime is "+jime())
