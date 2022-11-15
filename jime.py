@@ -110,11 +110,9 @@ def jime():
     seconds = (dt - dt.min).seconds
     logging.debug("seconds is " + str(seconds))
     rounding = (seconds+round_up) // round_to * round_to
-    logging.debug("rounding = (seconds+round_up) // round_to * round_to")
-    logging.debug("rounding is " + str(rounding))
+    logging.debug("(seconds+round_up) // round_to * round_to is " + str(rounding))
     t = dt + datetime.timedelta(0,rounding-seconds,-dt.microsecond)
-    logging.debug("t = dt + datetime.timedelta(0,rounding-seconds,-dt.microsecond)")
-    logging.debug("t is " + str(t))
+    logging.debug("dt + datetime.timedelta(0,rounding-seconds,-dt.microsecond) is " + str(t))
     return str(t.hour).zfill(2)+":"+str(t.minute).zfill(2)
 
 if clear_screen:
@@ -124,8 +122,8 @@ print("The jime is "+jime())
 if loop_sec > 0:
     now_sec = datetime.datetime.now().second
     logging.debug("multiple * round(number / multiple) + multiple is " + str(loop_sec * round(now_sec / loop_sec) + loop_sec))
-    logging.debug("now_sec is " + str(now_sec) + ". Sleeping for " + str(loop_sec * round(now_sec / loop_sec) + loop_sec + 0.1 - now_sec) + " seconds.")
-    time.sleep(loop_sec * round(now_sec / loop_sec) + loop_sec + 0.1 - now_sec)
+    logging.debug("now_sec is " + str(now_sec) + ". Sleeping for " + str(loop_sec * round(now_sec / loop_sec) + loop_sec + 0.01 - now_sec) + " seconds.")
+    time.sleep(loop_sec * round(now_sec / loop_sec) + loop_sec + 0.01 - now_sec)
     now_min = datetime.datetime.now().minute
     if using_list:
         round_to_min = walk_list(now_min)
@@ -139,8 +137,8 @@ if loop_sec > 0:
     while True:
         now_sec = datetime.datetime.now().second
         logging.debug("multiple * round(number / multiple) + multiple is " + str(loop_sec * round(now_sec / loop_sec) + loop_sec))
-        logging.debug("now_sec is " + str(now_sec) + ". Sleeping for " + str(loop_sec * round(now_sec / loop_sec) + loop_sec + 0.1 - now_sec) + " seconds.")
-        time.sleep(loop_sec * round(now_sec / loop_sec) + loop_sec + 0.1 - now_sec)
+        logging.debug("now_sec is " + str(now_sec) + ". Sleeping for " + str(loop_sec * round(now_sec / loop_sec) + loop_sec + 0.01 - now_sec) + " seconds.")
+        time.sleep(loop_sec * round(now_sec / loop_sec) + loop_sec + 0.01 - now_sec)
         now_min = datetime.datetime.now().minute
         if using_list:
             round_to_min = walk_list(now_min)

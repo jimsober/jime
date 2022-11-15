@@ -1,5 +1,7 @@
 # Jime
 ### Options
+* Clear Screen
+  * optional, default value of True used if omitted
 * Log Level
   * choose from DEBUG,INFO,WARNING,ERROR,CRITICAL
   * optional, default value of CRITICAL is used if omitted
