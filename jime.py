@@ -32,13 +32,13 @@ exec(cmd)
 try:
     round_to_min
     using_list = False
-    logging.info("using_list is " + str(using_list))
+    logging.debug("using_list is " + str(using_list))
 except NameError:
     round_to_min = -1
     try:
         round_to_min_list
         using_list = True
-        logging.info("using_list is " + str(using_list))
+        logging.debug("using_list is " + str(using_list))
     except NameError:
         logging.critical("Either round_to_min or round_to_min_list is required. Please correct the configuration in `jime.cfg`.")
         sys.exit(1);
@@ -52,14 +52,14 @@ except NameError:
 try:
     round_up_min
     using_per = False
-    logging.info("using_per is " + str(using_per))
+    logging.debug("using_per is " + str(using_per))
 except NameError:
     round_up_min = -1
     try:
         round_up_per
         using_per = True
-        logging.info("using_per is " + str(using_per))
-        logging.info("round_up_per is " + str(round_up_per))
+        logging.debug("using_per is " + str(using_per))
+        logging.debug("round_up_per is " + str(round_up_per))
     except NameError:
         logging.critical("Either round_up_min or round_up_per is required. Please correct the configuration in `jime.cfg`.")
         sys.exit(1);
@@ -91,28 +91,28 @@ if using_list:
     round_to_min = walk_list(now_min)
 if using_per:
     round_up_min = round((round_up_per/100)*(round_to_min))
-    logging.info("round_up_min is " + str(round_up_min))
+    logging.debug("round_up_min is " + str(round_up_min))
 
 def jime():
-    dt = datetime.datetime.now()
-    round_to = 60*round_to_min
-    round_up = 60*round_up_min
-    logging.info("using_list is " + str(using_list))
-    logging.info("using_per is " + str(using_per))
-    logging.info("round_to_min is " + str(round_to_min))
-    logging.info("loop_sec is " + str(loop_sec))
+    logging.debug("using_list is " + str(using_list))
+    logging.debug("using_per is " + str(using_per))
+    logging.debug("round_to_min is " + str(round_to_min))
+    logging.debug("loop_sec is " + str(loop_sec))
     if using_per:
-        logging.info("round_up_per is " + str(round_up_per))
-    logging.info("round_up_min is " + str(round_up_min))
+        logging.debug("round_up_per is " + str(round_up_per))
+    logging.debug("round_up_min is " + str(round_up_min))
+    dt = datetime.datetime.now()
+    logging.debug("dt is " + str(dt))
+    round_to = 60*round_to_min
     logging.debug("round_to is " + str(round_to))
+    round_up = 60*round_up_min
     logging.debug("round_up is " + str(round_up))
-    logging.info("dt is " + str(dt))
     seconds = (dt - dt.min).seconds
     logging.debug("seconds is " + str(seconds))
     rounding = (seconds+round_up) // round_to * round_to
-    logging.debug("(seconds+round_up) // round_to * round_to is " + str(rounding))
+    logging.debug("(seconds+round_up) // round_to * round_to = rounding is " + str(rounding))
     t = dt + datetime.timedelta(0,rounding-seconds,-dt.microsecond)
-    logging.debug("dt + datetime.timedelta(0,rounding-seconds,-dt.microsecond) is " + str(t))
+    logging.debug("dt + datetime.timedelta(0,rounding-seconds,-dt.microsecond) = t is " + str(t))
     return str(t.hour).zfill(2)+":"+str(t.minute).zfill(2)
 
 if clear_screen:
@@ -121,30 +121,32 @@ print("The jime is "+jime())
 
 if loop_sec > 0:
     now_sec = datetime.datetime.now().second
-    logging.debug("multiple * round(number / multiple) + multiple is " + str(loop_sec * round(now_sec / loop_sec) + loop_sec))
-    logging.debug("now_sec is " + str(now_sec) + ". Sleeping for " + str(loop_sec * round(now_sec / loop_sec) + loop_sec + 0.01 - now_sec) + " seconds.")
+    logging.debug("multiple * round(number / multiple) + multiple = next multiple is " + str(loop_sec * round(now_sec / loop_sec) + loop_sec))
+    logging.debug("now_sec is " + str(now_sec) + ".")
+    logging.debug("Sleeping for " + str(loop_sec * round(now_sec / loop_sec) + loop_sec + 0.01 - now_sec) + " seconds.")
     time.sleep(loop_sec * round(now_sec / loop_sec) + loop_sec + 0.01 - now_sec)
     now_min = datetime.datetime.now().minute
     if using_list:
         round_to_min = walk_list(now_min)
     if using_per:
         round_up_min = round((round_up_per/100)*(round_to_min))
-        logging.info("round_up_min is " + str(round_up_min))
+        logging.debug("round_up_min is " + str(round_up_min))
 
     if clear_screen:
         _ = system('clear')
     print("The jime is "+jime())
     while True:
         now_sec = datetime.datetime.now().second
-        logging.debug("multiple * round(number / multiple) + multiple is " + str(loop_sec * round(now_sec / loop_sec) + loop_sec))
-        logging.debug("now_sec is " + str(now_sec) + ". Sleeping for " + str(loop_sec * round(now_sec / loop_sec) + loop_sec + 0.01 - now_sec) + " seconds.")
+        logging.debug("multiple * round(number / multiple) + multiple = next multiple is " + str(loop_sec * round(now_sec / loop_sec) + loop_sec))
+        logging.debug("now_sec is " + str(now_sec) + ".")
+        logging.debug("Sleeping for " + str(loop_sec * round(now_sec / loop_sec) + loop_sec + 0.01 - now_sec) + " seconds.")
         time.sleep(loop_sec * round(now_sec / loop_sec) + loop_sec + 0.01 - now_sec)
         now_min = datetime.datetime.now().minute
         if using_list:
             round_to_min = walk_list(now_min)
         if using_per:
             round_up_min = round((round_up_per/100)*(round_to_min))
-            logging.info("round_up_min is " + str(round_up_min))
+            logging.debug("round_up_min is " + str(round_up_min))
 
         if clear_screen:
             _ = system('clear')
