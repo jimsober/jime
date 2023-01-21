@@ -1,0 +1,1 @@
+docker run -it --rm jime python -c "import os; os.chdir('/usr/src/app'); import jime"
